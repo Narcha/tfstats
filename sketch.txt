@@ -1,0 +1,4 @@
+/
+/stats/
+/stats/<steamid>/
+/stats/<steamid>/?class=spy
