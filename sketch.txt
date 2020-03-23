@@ -1,4 +1,8 @@
 /
-/stats/
-/stats/<steamid>/
-/stats/<steamid>/?class=spy
+    # Homepage
+/profiles/
+    # SteamID input
+/profiles/<steamid>/
+    # Player stats
+/profiles/<steamid>/?class=spy
+    # Player stats filtered
