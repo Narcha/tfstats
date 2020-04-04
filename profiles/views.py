@@ -3,7 +3,8 @@ from django.http import HttpResponse
 
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the stats index.")
+    return HttpResponse("Hello, world. You're at the profiles index.")
 
 def profile(request, steamid):
-    return HttpResponse(str(steamid))
+    return render(request, 'profiles.html')
+    # return HttpResponse(str(steamid))
