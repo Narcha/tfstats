@@ -1,5 +1,5 @@
 *__pycache__/
-
+testing/
 *.log
 local_settings.py
 db.sqlite3
