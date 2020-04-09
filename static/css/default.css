@@ -1,5 +1,11 @@
 #login{
     position: relative;
-    float: right;
     top: 4px;
+    float: right;
+}
+.content-container{
+    margin-top: 75px;
+}
+.mynavbar{
+    width: 80%;
 }
