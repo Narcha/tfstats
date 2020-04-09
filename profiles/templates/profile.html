@@ -1,5 +1,83 @@
 {% extends 'base.html' %}
 
 {% block content %}
-steamid: {{steamid}}
+<ul class="nav nav-tabs">
+  <li class="active"><a data-toggle="tab" href="#overview">Overview</a></li>
+  <li><a data-toggle="tab" href="#class-stats">Class stats</a></li>
+  <li><a data-toggle="tab" href="#map-stats">Map stats</a></li>
+  <li><a data-toggle="tab" href="#mvm-stats">MVM stats</a></li>
+</ul>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<div class="tab-content">
+  <div id="overview" class="tab-pane fade in active">
+  </div>
+  <div id="class-stats" class="tab-pane fade">
+    <div class="row">
+        <div class="col-sm-6">
+            <canvas id="class-chart"></canvas>
+            <script>
+                var ctx = document.getElementById('class-chart').getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Scout', 'Soldier', 'Pyro', 'Demoman', 'Heavy', 'Engineer', 'Medic', 'Sniper', 'Spy'],
+                        datasets: [{
+                            label: 'Hours played',
+                            data: [64.1, 191.8, 94.5, 130.1, 81.9, 109.2, 56.3, 72.5, 129],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 99, 132, 1)',
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+            </script>
+        </div>
+        <div class="col-sm-6">
+            <table class="table">
+                <tr>
+                    <td>Most played:</td>
+                    <td>Soldier</td>
+                </tr>
+                <tr>
+                    <td>Least played:</td>
+                    <td>Medic</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+  </div>
+  <div id="map-stats" class="tab-pane fade">
+  </div>
+  <div id="mvm-stats" class="tab-pane fade">
+  </div>
+</div>
 {% endblock %}

@@ -1,0 +1,11 @@
+(class).accum.iPlayTime
+(class).accum.iNumberOfKills
+(class).accum.iDamageDealt
+(class).accum.iDominations
+Medic.accum.iNumInvulnerable
+Spy.accum.iBackstabs
+Engineer.accum.iBuildingsBuilt
+Sniper.accum.iHeadshots
+Spy.accum.iHeadshots
+Medic.accum.iHealthPointsHealed
+(class).mvm.accum.iPlayTime
