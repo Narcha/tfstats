@@ -124,3 +124,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
+
+# Steam API key
+STEAM_API_KEY = os.getenv("STEAM_API_KEY")
