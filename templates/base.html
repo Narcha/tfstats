@@ -6,8 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>stats.tf | {{page_name}} </title>
-    <link rel="icon" type="img/ico" href="/static/img/favicon.ico">
-    <link rel="stylesheet" href="/static/css/default.css">
+    <link rel="icon" type="img/ico" href="{%static "img/favicon.ico"%}">
+    <link rel="stylesheet" href="{% static "css/default.css"%}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
@@ -24,7 +24,7 @@
                 <li><a href="/about">About</a></li>
             </ul>
             <form method="post" action="/login" id="login" class="navbar-form hidden-xs navbar-btn" style="height:23px">
-                <input type="image" src="/static/img/sits_small.png" alt="Sign In">
+                <input type="image" src="{%static "img/sits_small.png"%}" alt="Sign In">
             </form>
         </div>
     </nav>
