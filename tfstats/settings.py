@@ -15,12 +15,8 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '***REMOVED***'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -129,5 +125,17 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
 
+# Secrets
+
 # Steam API key
-STEAM_API_KEY = os.getenv("STEAM_API_KEY")
+with open(os.path.join(BASE_DIR, "secret/STEAM_API_KEY"), "r") as fp:
+    STEAM_API_KEY = fp.read().strip()
+
+# Secret Key
+with open(os.path.join(BASE_DIR, "secret/SECRET_KEY"), "r") as fp:
+    SECRET_KEY = fp.read().strip()
+
+# Session settings
+# https://docs.djangoproject.com/en/3.0/topics/http/sessions/
+
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
