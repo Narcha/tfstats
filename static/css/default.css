@@ -1,11 +1,15 @@
-#login{
+.navbar-right{
     position: relative;
-    top: 4px;
-    float: right;
+    float: right !important;
+    height:50px
 }
 .content-container{
     margin-top: 75px;
 }
 .mynavbar{
     width: 80%;
+}
+.sits-button{
+    position: relative;
+    top:5px
 }
