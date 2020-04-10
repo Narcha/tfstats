@@ -1,5 +1,4 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,18 +16,25 @@
         <div class="container-fluid mynavbar">
             <div class="navbar-header">
                 <a class="navbar-brand" href="/">stats.tf</a>
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                </button>
             </div>
-            <ul class="nav navbar-nav">
-                <li><a href="/profiles">Player Stats</a></li>
-                <li><a href="/global">Global Stats</a></li>
-                <li><a href="/about">About</a></li>
-            </ul>
-            <form method="post" action="/login" id="login" class="navbar-form hidden-xs navbar-btn" style="height:23px">
-                <input type="image" src="{%static "img/sits_small.png"%}" alt="Sign In">
-            </form>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="/profiles">Player Stats</a></li>
+                    <li><a href="/global">Global Stats</a></li>
+                    <li><a href="/about">About</a></li>
+                </ul>
+                <form method="post" action="/login" id="login" class="navbar-form hidden-xs navbar-btn" style="height:23px">
+                    <input type="image" src="{%static "img/sits_small.png"%}" alt="Sign In">
+                    <input type="hidden" name="return" value={{ request.get_full_path }}>
+                </form>
+            </div>
         </div>
     </nav>
     <div class="container well content-container">
+        {% if page_name is None %}EMPTY PAGE NAME!!{% endif %}
         {% block content %}
         {% endblock %}
     </div>
