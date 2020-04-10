@@ -10,11 +10,14 @@ STEAM_API_URL = "https://api.steampowered.com/ISteamUserStats/GetUserStatsForGam
 
 # Create your models here.
 class PlayerStat(models.Model):
-    steamid = models.BigIntegerField()
-    timestamp = models.DateTimeField()
-    stats_general_json = models.TextField()
-    stats_map_json = models.TextField()
-    stats_mvm_json = models.TextField()
+    class Meta:
+        managed = True
+
+    steamid = models.BigIntegerField(editable = False)
+    timestamp = models.DateTimeField(editable = False)
+    stats_general_json = models.TextField(editable = False)
+    stats_map_json = models.TextField(editable = False)
+    stats_mvm_json = models.TextField(editable = False)
 
     def get_by_steamid(self, steamid):
         response = requests.get(STEAM_API_URL % tfstats.settings.STEAM_API_KEY, steamid)
