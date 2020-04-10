@@ -18,6 +18,7 @@ from django.urls import include, path
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 import homepage.views
 import about.views
+import search.views
 
 urlpatterns = [
     path('', homepage.views.index),
@@ -25,6 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('about/', about.views.about),
     path('global/', include("global_stats.urls")),
+    path('search/', search.views.search),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'profiles',
     'steam_api',
     'about',
-    'global_stats'
+    'global_stats',
+    'search',
 ]
 
 MIDDLEWARE = [
