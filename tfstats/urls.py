@@ -28,7 +28,7 @@ urlpatterns = [
     path('about/', about.views.about),
     path('global/', include("global_stats.urls")),
     path('search/', search.views.search),
-    path('login/', login.views.lits),
+    path('login/', include("login.urls")),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
