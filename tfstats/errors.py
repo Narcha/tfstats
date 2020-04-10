@@ -1,0 +1,2 @@
+class InvalidSteamIDError(Exception):
+    pass
