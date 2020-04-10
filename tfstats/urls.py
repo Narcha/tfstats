@@ -19,6 +19,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 import homepage.views
 import about.views
 import search.views
+import login.views
 
 urlpatterns = [
     path('', homepage.views.index),
@@ -27,6 +28,7 @@ urlpatterns = [
     path('about/', about.views.about),
     path('global/', include("global_stats.urls")),
     path('search/', search.views.search),
+    path('login/', login.views.lits),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
