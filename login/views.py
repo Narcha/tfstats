@@ -1,7 +1,6 @@
 from django.shortcuts import redirect
 from django.utils.http import urlencode
-
-
+from django.core.handlers.wsgi import WSGIRequest
 
 # Create your views here.
 def lits(request):
@@ -21,5 +20,9 @@ def lits(request):
 
     return redirect(login_url)
 
-def return_url(request):
-    pass #TODO
+def return_url(request: WSGIRequest):
+    print(request.get_full_path())
+    print(request.GET)
+    print(request.GET.keys())
+    request.session["steamid"] = request.GET.get("openid.claimed_id").split("/")[-1]
+    return redirect("/")
