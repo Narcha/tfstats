@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'homepage',
     'profiles',
+    'steam_api',
+    'about',
+    'global_stats'
 ]
 
 MIDDLEWARE = [

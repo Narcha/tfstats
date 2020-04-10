@@ -17,11 +17,14 @@ from django.contrib import admin
 from django.urls import include, path
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 import homepage.views
+import about.views
 
 urlpatterns = [
     path('', homepage.views.index),
-    path('profiles/', include('profiles.urls')),
+    path('profiles/', include("profiles.urls")),
     path('admin/', admin.site.urls),
+    path('about/', about.views.about),
+    path('global/', include("global_stats.urls")),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
