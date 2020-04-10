@@ -26,11 +26,17 @@
                     <li><a href="/global">Global Stats</a></li>
                     <li><a href="/about">About</a></li>
                 </ul>
-                <form method="post" action="/login/" id="login" class="navbar-form hidden-xs navbar-btn" style="height:23px">
-                    <input type="image" src="{%static "img/sits_small.png"%}" alt="Sign In">
-                    {% csrf_token %}
-                    <input type="hidden" name="return" value={{ request.get_full_path }}>
-                </form>
+                <div class="nav navbar-nav navbar-right">
+                    {% if request.session.steamid is None %}
+                    <form method="post" action="/login/" id="login" class="navbar-form hidden-xs navbar-btn sits-button" style="height:23px">
+                        <input type="image" src="{%static "img/sits_small.png"%}" alt="Sign In">
+                        {% csrf_token %}
+                        <input type="hidden" name="return" value={{ request.get_full_path }}>
+                    </form>
+                    {% else %}
+                    Logged in as {{request.session.steamid}}.
+                    {% endif %}
+                </div>
             </div>
         </div>
     </nav>
