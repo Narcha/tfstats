@@ -4,7 +4,7 @@ from django.core.handlers.wsgi import WSGIRequest
 
 # Create your views here.
 def lits(request):
-    server_name = request.scheme + "://" + request.META['SERVER_NAME']
+    server_name = request.scheme + "://" + request.META['HTTP_HOST']
     RETURN_TO = server_name + "/login/return"
     BASE_URL = "https://steamcommunity.com/openid/login?"
     QUERY_PARAMS = {
