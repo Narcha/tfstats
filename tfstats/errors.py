@@ -6,3 +6,6 @@ class SteamAPIError(Exception):
     def __init__(self, code):
         self.code = code
         super().__init__()
+
+class PrivateStatsError(Exception):
+    """The requested stats cannot be accessed, they are set to private."""
