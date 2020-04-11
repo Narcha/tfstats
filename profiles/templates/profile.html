@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<script>
+    {% autoescape off %}
+    general_stats_json = {{playerstats.stats_general_json}}
+    map_stats_json = {{playerstats.stats_map_json}}
+    mvm_stats_json = {{playerstats.stats_mvm_json}}
+    {% endautoescape %}
+</script>
 <ul class="nav nav-tabs">
   <li class="active"><a data-toggle="tab" href="#overview">Overview</a></li>
   <li><a data-toggle="tab" href="#class-stats">Class stats</a></li>
@@ -10,20 +17,26 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <div class="tab-content">
   <div id="overview" class="tab-pane fade in active">
-  </div>
-  <div id="class-stats" class="tab-pane fade">
     <div class="row">
         <div class="col-sm-6">
             <canvas id="class-chart"></canvas>
             <script>
+                var playtimes = Array();
+                classes = ['Scout', 'Soldier', 'Pyro', 'Demoman', 'Heavy', 'Engineer', 'Medic', 'Sniper', 'Spy'];
+                classes.forEach(function(e){playtimes.push([e, general_stats_json[e+".accum.iPlayTime"]]);});
+                // sort in descendig order
+                playtimes.sort(function(a, b){return b[1]-a[1];});
+                sorted_classes = playtimes.map(function(e){return e[0];});
+                // sort and convert to hours
+                sorted_times = playtimes.map(function(e){return Math.round(e[1] / 360)/10;});
                 var ctx = document.getElementById('class-chart').getContext('2d');
                 var myChart = new Chart(ctx, {
                     type: 'horizontalBar',
                     data: {
-                        labels: ['Scout', 'Soldier', 'Pyro', 'Demoman', 'Heavy', 'Engineer', 'Medic', 'Sniper', 'Spy'],
+                        labels: sorted_classes,
                         datasets: [{
                             label: 'Hours played',
-                            data: [64.1, 191.8, 94.5, 130.1, 81.9, 109.2, 56.3, 72.5, 129],
+                            data: sorted_times,
                             backgroundColor: [
                                 'rgba(255, 99, 132, 0.2)',
                                 'rgba(255, 99, 132, 0.2)',
@@ -62,18 +75,24 @@
             </script>
         </div>
         <div class="col-sm-6">
-            <table class="table">
+            <table class="table stats-table-right">
                 <tr>
                     <td>Most played:</td>
-                    <td>Soldier</td>
+                    <td id="class_most_played"></td>
                 </tr>
                 <tr>
                     <td>Least played:</td>
-                    <td>Medic</td>
+                    <td id="class_least_played"></td>
                 </tr>
             </table>
+            <script>
+                document.getElementById("class_most_played").innerHTML = sorted_classes[0];
+                document.getElementById("class_least_played").innerHTML = sorted_classes[sorted_classes.length - 1];
+            </script>
         </div>
     </div>
+  </div>
+  <div id="class-stats" class="tab-pane fade">
   </div>
   <div id="map-stats" class="tab-pane fade">
   </div>
