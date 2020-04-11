@@ -33,7 +33,8 @@ class PlayerStat(models.Model):
             raise tfstats.errors.InvalidSteamIDError()
         if response.status_code != 200:
             raise tfstats.errors.SteamAPIError(response.status_code)
-
+        
+        self.has_public_stats = True
         decoded_json = json.loads(response.text)["playerstats"]
         self.steamid = decoded_json["steamID"]
         stats = decoded_json["stats"]
