@@ -13,7 +13,7 @@
 </head>
 <body>
     <nav class="navbar navbar-fixed-top navbar-default">
-        <div class="container-fluid mynavbar">
+        <div class="container">
             <div class="navbar-header">
                 <a class="navbar-brand" href="/">stats.tf</a>
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -25,16 +25,20 @@
                     <li><a href="/profiles">Player Stats</a></li>
                     <li><a href="/global">Global Stats</a></li>
                     <li><a href="/about">About</a></li>
+                    <li class="visible-xs"></li>
                 </ul>
-                <div class="nav navbar-nav navbar-right">
-                    {% if request.session.steamid is None %}
+                <div class="nav navbar-nav navbar-right hidden-xs">
+                    {% if request.session.profile is None %}
                     <form method="post" action="/login/" id="login" class="navbar-form hidden-xs navbar-btn sits-button" style="height:23px">
                         <input type="image" src="{%static "img/sits_small.png"%}" alt="Sign In">
                         {% csrf_token %}
                         <input type="hidden" name="return" value={{ request.get_full_path }}>
                     </form>
                     {% else %}
-                    Logged in as {{request.session.steamid}}.
+                    <div class="nav navbar-nav navbar-profile navbar-btn">
+                        <img src="{{request.session.profile.avatar_url_small}}" class="navbar-avatar">
+                        <a href="/profiles/{{request.session.profile.steamid}}" class="nav-link">{{request.session.profile.displayname}}</a>
+                    </div>
                     {% endif %}
                 </div>
             </div>
