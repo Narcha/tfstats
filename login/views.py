@@ -1,6 +1,7 @@
 from django.shortcuts import redirect
 from django.utils.http import urlencode
 from django.core.handlers.wsgi import WSGIRequest
+from steam_api.models import PlayerProfile
 
 # Create your views here.
 def lits(request):
@@ -21,8 +22,16 @@ def lits(request):
     return redirect(login_url)
 
 def return_url(request: WSGIRequest):
-    print(request.get_full_path())
-    print(request.GET)
-    print(request.GET.keys())
-    request.session["steamid"] = request.GET.get("openid.claimed_id").split("/")[-1]
+    steamid = request.GET.get("openid.claimed_id").split("/")[-1]
+    profile = PlayerProfile()
+    profile.get_by_steamid(steamid)
+    request.session["profile"] = {
+        "steamid": profile.steamid,
+        "displayname": profile.displayname,
+        "profile_url": profile.profile_url,
+        "timecreated": profile.timecreated.timestamp(),
+        "avatar_url_small": profile.avatar_url_small,
+        "avatar_url_medium": profile.avatar_url_medium,
+        "avatar_url_full": profile.avatar_url_full,
+    }
     return redirect("/")
