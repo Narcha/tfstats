@@ -6,7 +6,10 @@ from tfstats.errors import InvalidSteamIDError, SteamAPIError
 from steam_api.steamid import resolve_steamid_or_profile_link
 
 def index(request):
-    return render(request, 'profiles_index.html', {"page_name": "Profiles"})
+    return render(request, "profiles_index.html")
+
+def profile_not_found(request):
+    return render(request, "profile_not_found.html")
 
 def profile(request, steamid):
     try:
@@ -40,7 +43,4 @@ def profile(request, steamid):
 
 
     # Serve either the new record or an old one, given that it's not older than five minutes
-    return render(request, 'profile.html', {"page_name": "Profile", "playerstats": playerstats})
-
-def invalid_id(request, steamid):
-    return HttpResponseNotFound("Invalid SteamID (%s)"%steamid)
+    return render(request, 'profile.html', {"playerstats": playerstats})
