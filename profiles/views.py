@@ -11,10 +11,13 @@ def index(request):
 def profile(request, steamid):
     try:
         resolved_id = resolve_steamid_or_profile_link(steamid)
-    except InvalidSteamIDError:
-        return invalid_id(request, steamid)
     except SteamAPIError:
         return index(request)
+
+    if resolved_id is None:
+        raise InvalidSteamIDError()
+    
+    print("resolved id is %s"%resolved_id)
 
     # Check if we have records for the given steamID already
     try:
