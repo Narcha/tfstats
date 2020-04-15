@@ -6,4 +6,6 @@ from steam_api.steamid import resolve_steamid_or_profile_link
 def search(request: WSGIRequest):
     query = request.GET["query"]
     resolved_id = resolve_steamid_or_profile_link(query)
+    if resolved_id is None:
+        return redirect("/")
     return redirect("/profiles/" + str(resolved_id))
