@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>stats.tf | {{page_name}} </title>
+    <title>stats.tf | {% block title %}{% endblock title %} </title>
     <link rel="icon" type="img/ico" href="{%static "img/favicon.ico"%}">
     <link rel="stylesheet" href="{% static "css/default.css"%}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -21,13 +21,13 @@
                 </button>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav mr-auto">
                     <li><a href="/profiles">Player Stats</a></li>
                     <li><a href="/global">Global Stats</a></li>
                     <li><a href="/about">About</a></li>
                     <li class="visible-xs"></li>
                 </ul>
-                <div class="nav navbar-nav navbar-right hidden-xs">
+                <div class="nav navbar-nav hidden-xs">
                     {% if request.session.profile is None %}
                     <form method="post" action="/login/" id="login" class="navbar-form hidden-xs navbar-btn sits-button" style="height:23px">
                         <input type="image" src="{%static "img/sits_small.png"%}" alt="Sign In">
