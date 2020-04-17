@@ -11,14 +11,22 @@ Player Stats
     {% endautoescape %}
 </script>
 <ul class="nav nav-tabs">
-  <li class="active"><a data-toggle="tab" href="#overview">Overview</a></li>
-  <li><a data-toggle="tab" href="#class-stats">Class stats</a></li>
-  <li><a data-toggle="tab" href="#map-stats">Map stats</a></li>
-  <li><a data-toggle="tab" href="#mvm-stats">MVM stats</a></li>
+    <li class="nav-item active">
+        <a class="nav-link active" data-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true">Overview</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#class-stats" role="tab" aria-controls="class-stats" aria-selected="false">Class Stats</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#map-stats" role="tab" aria-controls="map-stats" aria-selected="false">Map Stats</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#mvm-stats" role="tab" aria-controls="mvm-stats" aria-selected="false">MVM Stats</a>
+    </li>
 </ul>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <div class="tab-content">
-  <div id="overview" class="tab-pane fade in active">
+  <div id="overview" class="tab-pane fade show active">
     <div class="row">
         <div class="col-sm-6">
             <canvas id="class-chart"></canvas>
