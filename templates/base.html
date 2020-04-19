@@ -72,13 +72,13 @@
                 </ul>
                 <div class="form-inline my-9 mr-sm-2">
                     {% if request.session.profile is None %}
-                    <form method="post" action="/login/" id="login" class="navbar-form hidden-xs navbar-btn sits-button" style="height:23px">
+                    <form method="post" action="/login/" id="login" class="navbar-form hidden-xs sits-button" style="height:23px">
                         <input type="image" src="{%static "img/sits_small.png"%}" alt="Sign In" class="my-auto">
                         {% csrf_token %}
                         <input type="hidden" name="return" value="{{ request.get_full_path }}">
                     </form>
                     {% else %}
-                    <div class="nav navbar-nav navbar-btn">
+                    <div class="nav navbar-nav">
                         <img src="{{request.session.profile.avatar_url_small}}" class="navbar-avatar my-auto">
                         <a href="/profiles/{{request.session.profile.steamid}}" class="nav-link">{{request.session.profile.displayname}}</a>
                     </div>
@@ -87,7 +87,7 @@
             </div>
         </div>
     </nav>
-    <div class="container card content-container">
+    <div class="content-container container card">
         {% block content %}
         {% endblock %}
     </div>
