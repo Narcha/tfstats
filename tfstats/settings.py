@@ -133,12 +133,10 @@ STATICFILES_DIRS = (
 # Secrets
 
 # Steam API key
-with open(os.path.join(BASE_DIR, "secret/STEAM_API_KEY"), "r") as fp:
-    STEAM_API_KEY = fp.read().strip()
+STEAM_API_KEY = os.environ["STEAM_API_KEY"]
 
 # Secret Key
-with open(os.path.join(BASE_DIR, "secret/SECRET_KEY"), "r") as fp:
-    SECRET_KEY = fp.read().strip()
+SECRET_KEY = os.environ["SECRET_KEY"]
 
 # Session settings
 # https://docs.djangoproject.com/en/3.0/topics/http/sessions/
