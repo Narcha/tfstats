@@ -1,6 +1,6 @@
 .content-container{
     margin-top: 2rem;
-    padding: 1rem;
+    padding: 0 !important;
 }
 .stats-table-right{
     margin-top: 2rem;
