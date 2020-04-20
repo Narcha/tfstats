@@ -5,3 +5,6 @@
 .stats-table-right{
     margin-top: 2rem;
 }
+a{
+    outline:none
+}
