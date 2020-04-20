@@ -44,9 +44,9 @@
                         <input type="hidden" name="return" value="{{ request.get_full_path }}">
                     </form>
                     {% else %}
-                    <div class="nav navbar-nav">
+                    <div class="nav navbar-nav" style="height:32px">
                         <img src="{{request.session.profile.avatar_url_small}}" class="navbar-avatar my-auto">
-                        <a href="/profiles/{{request.session.profile.steamid}}" class="nav-link">{{request.session.profile.displayname}}</a>
+                        <a href="/profiles/{{request.session.profile.steamid}}" class="my-auto ml-1">{{request.session.profile.displayname}}</a>
                     </div>
                     {% endif %}
                 </div>
