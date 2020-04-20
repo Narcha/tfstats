@@ -6,7 +6,7 @@ from steam_api.models import PlayerProfile
 # Create your views here.
 def lits(request):
     server_name = request.scheme + "://" + request.META['HTTP_HOST']
-    RETURN_TO = server_name + "/login/return"
+    RETURN_TO = server_name + "/login/return/"
     BASE_URL = "https://steamcommunity.com/openid/login?"
     QUERY_PARAMS = {
         "openid.ns": "http://specs.openid.net/auth/2.0",
