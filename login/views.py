@@ -2,8 +2,33 @@ from django.shortcuts import redirect
 from django.utils.http import urlencode
 from django.core.handlers.wsgi import WSGIRequest
 from steam_api.models import PlayerProfile
+import re, requests
 
-# Create your views here.
+
+def ValidateResults(get_params):
+    validationArgs = {
+        'openid.sig' : get_params['openid.sig'],
+        'openid.ns': get_params ['openid.ns']
+    }
+    signedArgs = get_params['openid.signed'].split(',')
+
+    for item in signedArgs:
+        itemArg = 'openid.%s' % item
+        validationArgs[itemArg] = get_params[itemArg]
+
+    validationArgs['openid.mode'] = 'check_authentication'
+
+    response = requests.get('https://steamcommunity.com/openid/login', params=validationArgs)
+
+    if re.search('is_valid:true', response.text):
+        matchedID = re.search('https://steamcommunity.com/openid/id/(\d+)', get_params['openid.claimed_id'])
+        if matchedID and matchedID.group(1):
+            return matchedID.group(1)
+        else:
+            return False
+    else:
+        return False
+
 def lits(request):
     server_name = request.scheme + "://" + request.META['HTTP_HOST']
     RETURN_TO = server_name + "/login/return/"
@@ -22,7 +47,9 @@ def lits(request):
     return redirect(login_url)
 
 def return_url(request: WSGIRequest):
-    steamid = request.GET.get("openid.claimed_id").split("/")[-1]
+    steamid = ValidateResults(request.GET)
+    if steamid == False:
+        return redirect("/")
     profile = PlayerProfile()
     profile.get_by_steamid(steamid)
     request.session["profile"] = {
