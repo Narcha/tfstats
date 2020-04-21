@@ -45,5 +45,5 @@ def profile(request, steamid):
     return render(request, 'profile.html', {
         "stats_general": json.loads(playerstats.stats_general_json),
         "stats_map": json.loads(playerstats.stats_map_json),
-        "stats_mvm": json.loads(playerstats.stats_mvm_json)
+        "stats_mvm": json.loads(playerstats.stats_mvm_json),
     })
