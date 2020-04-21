@@ -27,7 +27,7 @@ class PlayerStat(models.Model):
             # or due to the user setting his game details to private.
 
             # Quick and dirty check to see if the user has their game stats set to private:
-            if requests.get("https://steamcommunity.com/profiles/76561197968575517/stats/TF2/?xml=1", allow_redirects = False).status_code == 302:
+            if requests.get("https://steamcommunity.com/profiles/%s/stats/TF2/?xml=1" % steamid, allow_redirects = False).status_code == 302:
                 # yup, it's set to private
                 self.has_public_stats = False
                 raise tfstats.errors.PrivateStatsError()
