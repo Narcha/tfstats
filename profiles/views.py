@@ -2,7 +2,7 @@ from django.utils import timezone
 from django.shortcuts import render, redirect
 from django.http import HttpResponseNotFound
 import json
-from steam_api.models import PlayerStat, PlayerProfile
+from steam_api.models import Player
 from steam_api.steamid import resolve_steamid_or_profile_link
 from tfstats.errors import InvalidSteamIDError, SteamAPIError
 
@@ -23,8 +23,8 @@ def profile(request, steamid):
 
     # Check if we have records for the given steamID already
     try:
-        db_record = PlayerStat.objects.get(steamid=resolved_id)
-    except PlayerStat.DoesNotExist:
+        db_record = Player.objects.get(steamid=resolved_id)
+    except Player.DoesNotExist:
         db_record = None
     print("looked up records for %d, found %s"% (resolved_id, db_record))
 
@@ -32,18 +32,20 @@ def profile(request, steamid):
 
     if db_record is not None:
         # update existing record if that entry is older than five minutes
-        if timezone.now() - db_record.timestamp > timezone.timedelta(minutes=5):
-            db_record.get_by_steamid(resolved_id)
+        if timezone.now() - db_record.updated_at > timezone.timedelta(minutes=5):
+            db_record.from_steamid(resolved_id)
         playerstats = db_record
     else:
         # create new record
-        playerstats = PlayerStat()
-        playerstats.get_by_steamid(resolved_id)
+        playerstats = Player()
+        playerstats.from_steamid(resolved_id)
 
-
-    # Serve either the new record or an old one, given that it's not older than five minutes
-    return render(request, 'profile.html', {
-        "stats_general": json.loads(playerstats.stats_general_json),
-        "stats_map": json.loads(playerstats.stats_map_json),
-        "stats_mvm": json.loads(playerstats.stats_mvm_json)
-    })
+    if playerstats.has_public_stats:
+        return render(request, 'profile.html', {
+            "private_stats": False,
+            "stats_general": json.loads(playerstats.stats_general_json),
+            "stats_map": json.loads(playerstats.stats_map_json),
+            "stats_mvm": json.loads(playerstats.stats_mvm_json)
+        })
+    else:
+        return render(request, "profile.html", {"private_stats": True})

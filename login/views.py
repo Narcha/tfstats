@@ -1,7 +1,7 @@
 from django.shortcuts import redirect
 from django.utils.http import urlencode
 from django.core.handlers.wsgi import WSGIRequest
-from steam_api.models import PlayerProfile
+from steam_api.models import Player
 import re, requests
 
 
@@ -50,13 +50,13 @@ def return_url(request: WSGIRequest):
     steamid = ValidateResults(request.GET)
     if steamid == False:
         return redirect("/")
-    profile = PlayerProfile()
-    profile.get_by_steamid(steamid)
+    profile = Player()
+    profile.from_steamid(steamid)
     request.session["profile"] = {
         "steamid": profile.steamid,
         "displayname": profile.displayname,
         "profile_url": profile.profile_url,
-        "timecreated": profile.timecreated.timestamp(),
+        "timecreated": profile.account_created_at.timestamp(),
         "avatar_url_small": profile.avatar_url_small,
         "avatar_url_medium": profile.avatar_url_medium,
         "avatar_url_full": profile.avatar_url_full,

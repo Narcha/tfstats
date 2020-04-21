@@ -8,37 +8,69 @@ import datetime
 from . import tracked_fields
 import steam_api
 
-# Create your models here.
-class PlayerStat(models.Model):
+class PlayerManager(models.Manager):
+    pass
+
+class Player(models.Model):
     class Meta:
         managed = True
 
+    objects = PlayerManager()
+
+    # General information
     steamid = models.BigIntegerField(primary_key=True)
+    displayname = models.CharField(max_length = 50)
+    avatar_url_small = models.URLField()
+    avatar_url_medium = models.URLField()
+    avatar_url_full = models.URLField()
+    profile_url = models.URLField()
+
+    # Timestamps
+    account_created_at = models.DateTimeField()
+    joined_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    # Game stats
     has_public_stats = models.BooleanField()
-    timestamp = models.DateTimeField()
     stats_general_json = models.TextField()
     stats_map_json = models.TextField()
     stats_mvm_json = models.TextField()
 
-    def get_by_steamid(self, steamid):
+
+    def from_steamid(self, steamid):
+        response = requests.get(steam_api.STEAM_API_PLAYERSUMMARY_URL % (tfstats.settings.STEAM_API_KEY, steamid))
+        if response.status_code == 500:
+            raise tfstats.errors.InvalidSteamIDError()
+        if response.status_code != 200:
+            raise tfstats.errors.SteamAPIError(response.status_code)
+        try:
+            decoded_json = json.loads(response.text)
+            decoded_json = decoded_json["response"]["players"][0]
+        except (json.decoder.JSONDecodeError, KeyError):
+            raise tfstats.errors.InvalidSteamIDError()
+
+        self.steamid = steamid
+        self.displayname = decoded_json["personaname"]
+        self.timestamp = timezone.now()
+        self.avatar_url_small = decoded_json["avatar"]
+        self.avatar_url_medium = decoded_json["avatarmedium"]
+        self.avatar_url_full = decoded_json["avatarfull"]
+        self.profile_url = decoded_json["profileurl"]
+        self.account_created_at = datetime.datetime.fromtimestamp(int(decoded_json["timecreated"]))
+
         response = requests.get(steam_api.STEAM_API_GAMESTATS_URL % (tfstats.settings.STEAM_API_KEY, steamid))
         if response.status_code == 500:
-            # this could either be due to a server error on valves part,
-            # or due to the user setting his game details to private.
-
-            # Quick and dirty check to see if the user has their game stats set to private:
-            if requests.get("https://steamcommunity.com/profiles/%s/stats/TF2/?xml=1" % steamid, allow_redirects = False).status_code == 302:
-                # yup, it's set to private
-                self.has_public_stats = False
-                raise tfstats.errors.PrivateStatsError()
-            raise tfstats.errors.InvalidSteamIDError()
+            # the player has their stats set to private
+            self.has_public_stats = False
+            self.save()
+            return
         if response.status_code != 200:
             raise tfstats.errors.SteamAPIError(response.status_code)
         
         self.has_public_stats = True
         decoded_json = json.loads(response.text)["playerstats"]
-        self.steamid = decoded_json["steamID"]
         stats = decoded_json["stats"]
+        self.steamid = decoded_json["steamID"]
         del decoded_json, response
 
         # convert stats to a dict for easier indexing
@@ -77,38 +109,4 @@ class PlayerStat(models.Model):
         self.stats_general_json = json.dumps(stats_general_dict)
         self.stats_map_json = json.dumps(stats_map_dict)
         self.stats_mvm_json = json.dumps(stats_mvm_dict)
-        self.timestamp = timezone.now()
-        self.save()
-
-class PlayerProfile(models.Model):
-    steamid = models.BigIntegerField(primary_key=True)
-    displayname = models.CharField(max_length = 50)
-    timestamp = models.DateTimeField()
-    avatar_url_small = models.URLField()
-    avatar_url_medium = models.URLField()
-    avatar_url_full = models.URLField()
-    profile_url = models.URLField()
-    timecreated = models.DateTimeField()
-
-    def get_by_steamid(self, steamid):
-        """populates fields with data for given SteamID"""
-        response = requests.get(steam_api.STEAM_API_PLAYERSUMMARY_URL % (tfstats.settings.STEAM_API_KEY, steamid))
-        if response.status_code == 500:
-            raise tfstats.errors.InvalidSteamIDError()
-        if response.status_code != 200:
-            raise tfstats.errors.SteamAPIError(response.status_code)
-        
-        decoded_json = json.loads(response.text)
-        print(decoded_json)
-        decoded_json = decoded_json["response"]["players"][0]
-
-        self.steamid = steamid
-        self.displayname = decoded_json["personaname"]
-        self.timestamp = timezone.now()
-        self.avatar_url_small = decoded_json["avatar"]
-        self.avatar_url_medium = decoded_json["avatarmedium"]
-        self.avatar_url_full = decoded_json["avatarfull"]
-        self.profile_url = decoded_json["profileurl"]
-        self.timecreated = datetime.datetime.fromtimestamp(int(decoded_json["timecreated"]))
-
         self.save()
