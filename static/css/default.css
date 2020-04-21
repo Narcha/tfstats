@@ -1,6 +1,6 @@
 .content-container{
     margin-top: 2rem;
-    padding: 0 !important;
+    /*padding: 0 !important;*/
 }
 .stats-table-right{
     margin-top: 2rem;
@@ -10,4 +10,9 @@ a{
 }
 .navbar-avatar{
     align-self: flex-start;
+    border-radius: 50%;
+}
+.profile-avatar{
+    border-radius: 20%;
+    border: 4px solid gray
 }
