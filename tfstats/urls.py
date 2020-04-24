@@ -29,6 +29,7 @@ urlpatterns = [
     path('global/', include("global_stats.urls")),
     path('search/', search.views.search),
     path('login/', include("login.urls")),
+    path('logout/', login.views.logout),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
