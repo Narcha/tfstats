@@ -1,11 +1,7 @@
 from django.shortcuts import redirect
 from django.utils.http import urlencode
 from django.core.handlers.wsgi import WSGIRequest
-<<<<<<< HEAD
-from steam_api.models import PlayerProfile
-=======
 from steam_api.models import Player
->>>>>>> master
 import re, requests
 
 
