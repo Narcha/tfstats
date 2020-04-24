@@ -11,8 +11,9 @@ a{
 .navbar-avatar{
     align-self: flex-start;
     border-radius: 50%;
+    height: 50px;
 }
 .profile-avatar{
     border-radius: 20%;
-    border: 4px solid gray
+    border: 4px solid gray;
 }
