@@ -5,23 +5,30 @@ Player Stats
 {% block content %}
 <script>
     {% autoescape off %}
-    general_stats = {{stats_general}}
-    map_stats = {{stats_map}}
-    mvm_stats = {{stats_mvm}}
+    general_stats = {{profile.stats_general_json}}
+    map_stats = {{profile.stats_map_json}}
+    mvm_stats = {{profile.stats_mvm_json}}
     {% endautoescape %}
 </script>
 <div class="card mb-4">
     <div class="card-body">
         <div class="row">
             <div class="col-3">
-                <img src="{{request.session.profile.avatar_url_full}}" class="profile-avatar">
+                <img src="{{profile.avatar_url_full}}" class="profile-avatar mx-auto">
             </div>
             <div class="col-9">
-                content
+                <h2>
+                {{profile.displayname}}
+                </h2>
             </div>
         </div>
     </div>
 </div>
+{%if not profile.has_public_stats%}
+<div class="alert alert-warning" role="alert">
+    This player has their game stats set to <u>private</u>. If this is your profile, click <a href="#">here</a> to learn how to fix it.
+</div>
+{%else%}
 <div class="card mt-4">
     <div class="card-header">
         <ul class="nav nav-tabs card-header-tabs">
@@ -125,4 +132,5 @@ Player Stats
         </div>
     </div>
 </div>
+{%endif%}
 {% endblock %}

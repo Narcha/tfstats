@@ -1,7 +1,6 @@
 from django.utils import timezone
 from django.shortcuts import render, redirect
 from django.http import HttpResponseNotFound
-import json
 from steam_api.models import Player
 from steam_api.steamid import resolve_steamid_or_profile_link
 from tfstats.errors import InvalidSteamIDError, SteamAPIError
@@ -40,12 +39,6 @@ def profile(request, steamid):
         playerstats = Player()
         playerstats.from_steamid(resolved_id)
 
-    if playerstats.has_public_stats:
-        return render(request, 'profile.html', {
-            "private_stats": False,
-            "stats_general": json.loads(playerstats.stats_general_json),
-            "stats_map": json.loads(playerstats.stats_map_json),
-            "stats_mvm": json.loads(playerstats.stats_mvm_json)
-        })
-    else:
-        return render(request, "profile.html", {"private_stats": True})
+    return render(request, 'profile.html', {
+        "profile": playerstats,
+    })
