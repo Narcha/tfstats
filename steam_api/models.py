@@ -24,9 +24,10 @@ class Player(models.Model):
     avatar_url_medium = models.URLField()
     avatar_url_full = models.URLField()
     profile_url = models.URLField()
+    public_profile = models.BooleanField()
 
     # Timestamps
-    account_created_at = models.DateTimeField()
+    account_created_at = models.DateTimeField(blank=True)
     joined_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -51,12 +52,18 @@ class Player(models.Model):
 
         self.steamid = steamid
         self.displayname = decoded_json["personaname"]
-        self.timestamp = timezone.now()
         self.avatar_url_small = decoded_json["avatar"]
         self.avatar_url_medium = decoded_json["avatarmedium"]
         self.avatar_url_full = decoded_json["avatarfull"]
         self.profile_url = decoded_json["profileurl"]
-        self.account_created_at = datetime.datetime.fromtimestamp(int(decoded_json["timecreated"]))
+        self.public_profile = decoded_json["communityvisibilitystate"] == 3
+        if self.public_profile:
+            self.account_created_at = datetime.datetime.fromtimestamp(int(decoded_json["timecreated"]))
+        else:
+            self.account_created_at = None
+            self.has_public_stats = False
+            self.save()
+            return
 
         response = requests.get(steam_api.STEAM_API_GAMESTATS_URL % (tfstats.settings.STEAM_API_KEY, steamid))
         if response.status_code == 500:
