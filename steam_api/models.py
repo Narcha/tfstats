@@ -27,7 +27,7 @@ class Player(models.Model):
     public_profile = models.BooleanField()
 
     # Timestamps
-    account_created_at = models.DateTimeField(blank=True)
+    account_created_at = models.DateTimeField(blank=True, null=True)
     joined_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
