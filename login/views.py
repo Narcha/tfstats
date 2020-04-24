@@ -1,7 +1,11 @@
 from django.shortcuts import redirect
 from django.utils.http import urlencode
 from django.core.handlers.wsgi import WSGIRequest
+<<<<<<< HEAD
 from steam_api.models import PlayerProfile
+=======
+from steam_api.models import Player
+>>>>>>> master
 import re, requests
 
 
@@ -50,15 +54,27 @@ def return_url(request: WSGIRequest):
     steamid = ValidateResults(request.GET)
     if steamid == False:
         return redirect("/")
-    profile = PlayerProfile()
-    profile.get_by_steamid(steamid)
+    
+    # check if we have records for this user already
+    try:
+        profile = Player.objects.get(steamid=steamid)
+        print("[i] User %s logged in again" % steamid)
+    except Player.DoesNotExist:
+        profile = Player()
+        print("[i] User %s logged in for the first time" % steamid)
+
+    profile.from_steamid(steamid)
     request.session["profile"] = {
         "steamid": profile.steamid,
         "displayname": profile.displayname,
         "profile_url": profile.profile_url,
-        "timecreated": profile.timecreated.timestamp(),
+        "timecreated": profile.account_created_at.timestamp(),
         "avatar_url_small": profile.avatar_url_small,
         "avatar_url_medium": profile.avatar_url_medium,
         "avatar_url_full": profile.avatar_url_full,
     }
+    return redirect("/")
+
+def logout(request: WSGIRequest):
+    request.session["profile"] = None
     return redirect("/")

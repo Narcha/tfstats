@@ -44,16 +44,25 @@
                         <input type="hidden" name="return" value="{{ request.get_full_path }}">
                     </form>
                     {% else %}
-                    <div class="nav navbar-nav">
-                        <img src="{{request.session.profile.avatar_url_small}}" class="navbar-avatar my-auto">
-                        <a href="/profiles/{{request.session.profile.steamid}}" class="nav-link">{{request.session.profile.displayname}}</a>
+                    <div class="btn-group">
+                        <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img src="{{request.session.profile.avatar_url_medium}}" class="navbar-avatar my-auto">
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="/profiles/{{request.session.profile.steamid}}">My Stats</a>
+                            <div class="dropdown-divider"></div>
+                            <form method="post" action="/logout/">
+                                {% csrf_token %}
+                                <input type="submit" value="Log out" class="dropdown-item">
+                            </form>
+                        </div>
                     </div>
                     {% endif %}
                 </div>
             </div>
         </div>
     </nav>
-    <div class="content-container container card">
+    <div class="content-container container">
         {% block content %}
         {% endblock %}
     </div>
