@@ -13,13 +13,32 @@ Player Stats
 <div class="card mb-4">
     <div class="card-body">
         <div class="row">
-            <div class="col-3">
+            <div class="col-2">
                 <img src="{{profile.avatar_url_full}}" class="profile-avatar mx-auto">
             </div>
-            <div class="col-9">
-                <h2>
-                {{profile.displayname}}
+            <div class="col-6">
+                <h2 class="profile-displayname">
+                    {{profile.displayname}}
                 </h2>
+                <small class="text-muted">Last updated {{profile.updated_at | timesince}} ago</small>
+            </div>
+            <div class="col-4">
+                <table class="table">
+                    <tr>
+                        <td>
+                            Account created:
+                        </td>
+                        <td>
+                            {{profile.account_created_at | date}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
