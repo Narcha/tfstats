@@ -37,8 +37,13 @@ class Player(models.Model):
     stats_map_json = models.TextField()
     stats_mvm_json = models.TextField()
 
+    # Playtimes
+    playtime_440_total = models.PositiveIntegerField(blank=True, null=True)
+    playtime_440_2weeks = models.PositiveIntegerField(blank=True, null=True)
+
 
     def from_steamid(self, steamid):
+        # Step 1/3: General stats
         response = requests.get(steam_api.STEAM_API_PLAYERSUMMARY_URL % (tfstats.settings.STEAM_API_KEY, steamid))
         if response.status_code == 500:
             raise tfstats.errors.InvalidSteamIDError()
@@ -65,6 +70,7 @@ class Player(models.Model):
             self.save()
             return
 
+        # Step 2/3: Game stats
         response = requests.get(steam_api.STEAM_API_GAMESTATS_URL % (tfstats.settings.STEAM_API_KEY, steamid))
         if response.status_code == 500:
             # the player has their stats set to private
@@ -116,4 +122,25 @@ class Player(models.Model):
         self.stats_general_json = json.dumps(stats_general_dict)
         self.stats_map_json = json.dumps(stats_map_dict)
         self.stats_mvm_json = json.dumps(stats_mvm_dict)
+
+        # Step 3/3: Playtime
+        if not self.has_public_stats:
+            self.save()
+            return
+        response = requests.get(steam_api.STEAM_API_PLAYTIMES_URL % (tfstats.settings.STEAM_API_KEY, steamid))
+        if response.status_code == 500:
+            self.save()
+            return
+        if response.status_code != 200:
+            raise tfstats.errors.SteamAPIError(response.status_code)
+
+        try:
+            decoded_json = json.loads(response.text)["response"]["games"]
+            for game in decoded_json:
+                if game["appid"] == 440:
+                    self.playtime_440_total = game["playtime_forever"] / 60
+                    self.playtime_440_2weeks = game["playtime_2weeks"] / 60
+        except KeyError:
+            self.playtime_440_total = None
+            self.playtime_440_2weeks = None
         self.save()

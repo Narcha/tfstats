@@ -11,41 +11,29 @@ Player Stats
     {% endautoescape %}
 </script>
 <div class="card mb-4">
-    <div class="card-body">
+    <div class="card-body pr-0">
         <div class="row">
-            <div class="col-2">
+            <div class="col-md-2">
                 <img src="{{profile.avatar_url_full}}" class="profile-avatar mx-auto">
             </div>
-            <div class="col-6">
+            <div class="col-md-6">
                 <h2 class="profile-displayname">
                     {{profile.displayname}}
                 </h2>
                 <small class="text-muted">Last updated {{profile.updated_at | timesince}} ago</small>
             </div>
-            <div class="col-4">
-                <table class="table">
-                    <tr>
-                        <td>
-                            Account created:
-                        </td>
-                        <td>
-                            {{profile.account_created_at | date}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                        </td>
-                        <td>
-                        </td>
-                    </tr>
-                </table>
+            <div class="col-md-4 profile-metadata">
+                <div>Account created: {{profile.account_created_at | date}}</div>
+                <div>Hours in TF2: {{profile.playtime_440_total}}</div>
+                <div>Most played class: Soldier</div>
+                <div></div>
             </div>
         </div>
     </div>
 </div>
 {%if not profile.has_public_stats%}
 <div class="alert alert-warning" role="alert">
-    This player has their game stats set to <u>private</u>. If this is your profile, click <a href="#">here</a> to learn how to fix it.
+    This player has their game stats set to <u>private</u>. If this is your profile, click <a href="/private-stats/" target="_blank">here</a> to learn how to fix it.
 </div>
 {%else%}
 <div class="card mt-4">

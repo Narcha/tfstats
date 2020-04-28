@@ -26,3 +26,16 @@ a{
     margin: 0;
     border-left: 1px solid #dee2e6;
 }
+.profile-metadata{
+    margin: -20px;
+    margin-right: -40px;
+    border-left: 1px solid #dee2e6;
+    padding: 0px !important;
+}
+.profile-metadata div{
+    height: 25%;
+    margin: 0px;
+}
+.profile-metadata div:not(:last-child){
+    border-bottom: 1px solid #dee2e6;
+}
