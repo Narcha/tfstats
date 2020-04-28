@@ -1,10 +1,10 @@
 from django.db import models
 from django.utils import timezone
-import tfstats.settings
-import tfstats.errors
 import requests
 import json
 import datetime
+import tfstats.settings
+import tfstats.errors
 from . import tracked_fields
 import steam_api
 
@@ -63,7 +63,7 @@ class Player(models.Model):
         self.profile_url = decoded_json["profileurl"]
         self.public_profile = decoded_json["communityvisibilitystate"] == 3
         if self.public_profile:
-            self.account_created_at = datetime.datetime.fromtimestamp(int(decoded_json["timecreated"]))
+            self.account_created_at = timezone.make_aware(datetime.datetime.fromtimestamp(int(decoded_json["timecreated"])), timezone=datetime.timezone.utc)
         else:
             self.account_created_at = None
             self.has_public_stats = False
@@ -138,8 +138,9 @@ class Player(models.Model):
             decoded_json = json.loads(response.text)["response"]["games"]
             for game in decoded_json:
                 if game["appid"] == 440:
-                    self.playtime_440_total = game["playtime_forever"] / 60
-                    self.playtime_440_2weeks = game["playtime_2weeks"] / 60
+                    # rounded to one decimal
+                    self.playtime_440_total = round(game["playtime_forever"] / 6) / 10
+                    self.playtime_440_2weeks = round(game["playtime_2weeks"] / 6) / 10
         except KeyError:
             self.playtime_440_total = None
             self.playtime_440_2weeks = None
