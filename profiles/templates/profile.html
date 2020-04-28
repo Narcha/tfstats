@@ -25,7 +25,7 @@ Player Stats
             <div class="col-md-4 profile-metadata">
                 <div>Account created: {{profile.account_created_at | date}}</div>
                 <div>Hours in TF2: {{profile.playtime_440_total}}</div>
-                <div>Most played class: Soldier</div>
+                <div>Most played class: <span id="class_most_played"></span></div>
                 <div></div>
             </div>
         </div>
@@ -116,17 +116,12 @@ Player Stats
                 <div class="col-sm-6">
                     <table class="table stats-table-right">
                         <tr>
-                            <td>Most played:</td>
-                            <td id="class_most_played"></td>
-                        </tr>
-                        <tr>
-                            <td>Least played:</td>
-                            <td id="class_least_played"></td>
+                            <td>Total playtime:</td>
+                            <td id="playtime_total"></td>
                         </tr>
                     </table>
                     <script>
                         document.getElementById("class_most_played").innerHTML = sorted_classes[0];
-                        document.getElementById("class_least_played").innerHTML = sorted_classes[sorted_classes.length - 1];
                     </script>
                 </div>
             </div>
