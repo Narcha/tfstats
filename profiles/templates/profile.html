@@ -5,9 +5,9 @@ Player Stats
 {% block content %}
 <script>
     {% autoescape off %}
-    general_stats = {{profile.stats_general_json}}
-    map_stats = {{profile.stats_map_json}}
-    mvm_stats = {{profile.stats_mvm_json}}
+    general_stats = {{profile.stats_general}}
+    map_stats = {{profile.stats_map}}
+    mvm_stats = {{profile.stats_mvm}}
     {% endautoescape %}
 </script>
 <div class="card mb-4">

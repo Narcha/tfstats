@@ -33,9 +33,9 @@ class Player(models.Model):
 
     # Game stats
     has_public_stats = models.BooleanField()
-    stats_general_json = models.TextField()
-    stats_map_json = models.TextField()
-    stats_mvm_json = models.TextField()
+    stats_general = models.TextField()
+    stats_map = models.TextField()
+    stats_mvm = models.TextField()
 
     # Playtimes
     playtime_440_total = models.PositiveIntegerField(blank=True, null=True)
@@ -118,10 +118,10 @@ class Player(models.Model):
             except KeyError:
                 stat = 0
             stats_mvm_dict.update({field_name: stat})
-        
-        self.stats_general_json = json.dumps(stats_general_dict)
-        self.stats_map_json = json.dumps(stats_map_dict)
-        self.stats_mvm_json = json.dumps(stats_mvm_dict)
+
+        self.stats_general = stats_general_dict
+        self.stats_map = stats_map_dict
+        self.stats_mvm = stats_mvm_dict
 
         # Step 3/3: Playtime
         if not self.has_public_stats:
