@@ -15,7 +15,7 @@ a{
 }
 .profile-avatar{
     border-radius: 20%;
-    border: 4px solid gray;
+    border: 2px solid var(--secondary);
     width: 100%;
 }
 .profile-displayname{
