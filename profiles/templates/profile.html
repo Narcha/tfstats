@@ -1,32 +1,58 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}
 Player Stats
 {% endblock title %}
+{% block head %}
+<link rel="stylesheet" href="{% static "css/class_icons.css"%}">
+<link rel="stylesheet" href="{% static "css/profile_levels.css"%}">
+{% endblock head %}
 {% block content %}
 <script>
     {% autoescape off %}
-    general_stats = {{profile.stats_general_json}}
-    map_stats = {{profile.stats_map_json}}
-    mvm_stats = {{profile.stats_mvm_json}}
+    general_stats = {{profile.stats_general}}
+    map_stats = {{profile.stats_map}}
+    mvm_stats = {{profile.stats_mvm}}
     {% endautoescape %}
+
+    // enable tooltips
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
 </script>
 <div class="card mb-4">
-    <div class="card-body">
+    <div class="card-body pr-0">
         <div class="row">
-            <div class="col-3">
+            <div class="col-md-2">
                 <img src="{{profile.avatar_url_full}}" class="profile-avatar mx-auto">
             </div>
-            <div class="col-9">
-                <h2>
-                {{profile.displayname}}
-                </h2>
+            <div class="col-md-6">
+                <div>
+                    <h2 class="profile-displayname">
+                        {{profile.displayname}}
+                        <div class="align-middle profileLevel lvl_{{profile_level_class}}">
+                            {{profile.profile_level}}
+                        </div>
+                        {% if profile.main_class %}<div class="d-inline-block align-middle class_icon icon_{{profile.main_class|lower}}"></div>{% endif %}
+                    </h2>
+                </div>
+                {% if profile.account_created_at %}
+                <small class="text-muted" data-toggle="tooltip" data-placement="bottom" title="Account creation date"><i class="fas fa-sign-in-alt">&nbsp;</i>{{profile.account_created_at | date}}</small>
+                {% endif %}
             </div>
+            <!--
+            <div class="col-md-4 profile-metadata">
+                <div>Account created: {{profile.account_created_at | date}}</div>
+                <div>Hours in TF2: {{profile.playtime_440_total}}</div>
+                <div>Most played class: <span id="class_most_played"></span></div>
+                <div></div>
+            </div>-->
         </div>
     </div>
 </div>
 {%if not profile.has_public_stats%}
 <div class="alert alert-warning" role="alert">
-    This player has their game stats set to <u>private</u>. If this is your profile, click <a href="#">here</a> to learn how to fix it.
+    This player has their game stats set to <u>private</u>. If this is your profile, click <a href="/private-stats/" target="_blank">here</a> to learn how to fix it.
 </div>
 {%else%}
 <div class="card mt-4">
@@ -96,7 +122,7 @@ Player Stats
                             },
                             options: {
                                 scales: {
-                                    yAxes: [{
+                                    xAxes: [{
                                         ticks: {
                                             beginAtZero: true
                                         }
@@ -109,22 +135,46 @@ Player Stats
                 <div class="col-sm-6">
                     <table class="table stats-table-right">
                         <tr>
-                            <td>Most played:</td>
-                            <td id="class_most_played"></td>
-                        </tr>
-                        <tr>
-                            <td>Least played:</td>
-                            <td id="class_least_played"></td>
+                            <td>Total playtime:</td>
+                            <td id="playtime_total"></td>
                         </tr>
                     </table>
                     <script>
                         document.getElementById("class_most_played").innerHTML = sorted_classes[0];
-                        document.getElementById("class_least_played").innerHTML = sorted_classes[sorted_classes.length - 1];
                     </script>
                 </div>
             </div>
         </div>
         <div id="class-stats" class="tab-pane fade">
+            <ul class="nav">
+                <li class="nav-item active">
+                    <a class="nav-link active" data-toggle="tab" href="#scout" role="tab" aria-controls="scout" aria-selected="true"><div class="class_icon_large icon_scout"></div></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#soldier" role="tab" aria-controls="soldier" aria-selected="false"><div class="class_icon_large icon_soldier"></div></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#pyro" role="tab" aria-controls="pyro" aria-selected="false"><div class="class_icon_large icon_pyro"></div></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#demoman" role="tab" aria-controls="demoman" aria-selected="false"><div class="class_icon_large icon_demoman"></div></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#heavy" role="tab" aria-controls="heavy" aria-selected="false"><div class="class_icon_large icon_heavy"></div></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#engineer" role="tab" aria-controls="engineer" aria-selected="false"><div class="class_icon_large icon_engineer"></div></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#medic" role="tab" aria-controls="medic" aria-selected="false"><div class="class_icon_large icon_medic"></div></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#sniper" role="tab" aria-controls="sniper" aria-selected="false"><div class="class_icon_large icon_sniper"></div></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#spy" role="tab" aria-controls="spy" aria-selected="false"><div class="class_icon_large icon_spy"></div></a>
+                </li>
+            </ul>
         </div>
         <div id="map-stats" class="tab-pane fade">
         </div>

@@ -1,3 +1,4 @@
+from math import floor
 from django.utils import timezone
 from django.shortcuts import render, redirect
 from django.http import HttpResponseNotFound
@@ -25,7 +26,6 @@ def profile(request, steamid):
         db_record = Player.objects.get(steamid=resolved_id)
     except Player.DoesNotExist:
         db_record = None
-    print("looked up records for %d, found %s"% (resolved_id, db_record))
 
     playerstats = None
 
@@ -39,6 +39,11 @@ def profile(request, steamid):
         playerstats = Player()
         playerstats.from_steamid(resolved_id)
 
+    if playerstats.profile_level < 100:
+        profile_level_class = floor(playerstats.profile_level / 10) * 10
+    else:
+        profile_level_class = floor(playerstats.profile_level / 100) * 100
     return render(request, 'profile.html', {
         "profile": playerstats,
+        "profile_level_class": profile_level_class,
     })

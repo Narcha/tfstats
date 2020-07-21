@@ -1,19 +1,19 @@
-[ ] App: login
-[ ]     https://github.com/rohe/pyoidc
-[ ]     https://partner.steamgames.com/doc/features/auth
-[ ]     Web page: /login
-[ ]         this should redirect to steams login page
-[ ] Web page: /about
-[ ] Web page: /profiles
-[ ] Web page: /profiles/<steamid>
-[ ]     multiple tabs with chart.js graphs:
-[ ]         Overview
-[ ]             overall playtime
-[ ]             most played class
-[ ]             most played map
-[ ]         Class stats
-[ ]         Map stats
-[ ]         MVM stats
-[ ] App: API query
-[ ]     https://partner.steamgames.com/doc/webapi_overview
-[ ]     this should query steams API and store a condensed version of the result in our DB
+Web page: /private-stats
+Web page: /about
+Web page: /profiles
+Web page: /profiles/<steamid>
+    multiple tabs with chart.js graphs:
+        Overview
+            overall playtime
+            most played class
+            most played map
+        Class stats
+        Map stats
+        MVM stats
+    Other Links:
+        steamcommunity.com
+        rep.tf
+        backpack.tf
+App: API query
+    https://partner.steamgames.com/doc/webapi_overview
+    this should query steams API and store a condensed version of the result in our DB

@@ -12,10 +12,7 @@ def validate_steamid(steamid):
         return False
 
     # miximum and minimum steamID possible
-    if 76561197960265729 < steamid_int < 76561202255233023:
-        return True
-    else:
-        return False
+    return 76561197960265729 <= steamid_int <= 76561202255233023
 
 def resolve_vanity_url_fragment(url_frag):
     response = requests.get(steam_api.STEAM_API_RESOLVEVANITYURL_URL % (tfstats.settings.STEAM_API_KEY, url_frag))
@@ -33,18 +30,17 @@ def resolve_vanity_url_fragment(url_frag):
         return int(decoded_json["steamid"])
 
 def resolve_steamid_or_profile_link(query:str):
-    """takes a possible SteamID, a vanity URL segment, or a complete profile url,
+    """takes a possible SteamID, a vanity URL fragment, or a complete profile url,
     and returns the corresponding SteamID as an int."""
 
-    re_vanity = re.compile("steamcommunity.com\/id\/([\w-]+)")
-    re_steamid = re.compile("steamcommunity.com\/profiles\/(\d+)")
-    
     # check if query is an "id" link
+    re_vanity = re.compile("steamcommunity.com\/id\/([\w-]+)")
     match = re_vanity.search(query)
     if match:
         return resolve_vanity_url_fragment(match.group(1))
     
     # check if query is a "profile" link
+    re_steamid = re.compile("steamcommunity.com\/profiles\/(\d+)")
     match = re_steamid.search(query)
     if match:
         if validate_steamid(match.group(1)):

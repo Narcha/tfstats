@@ -1,0 +1,44 @@
+.class_icon{
+	width: 32px !important;
+	height: 32px !important;
+	background-origin: content-box;
+	background-repeat: no-repeat;
+	background-size: contain;
+}.class_icon_large{
+	width: 64px !important;
+	height: 64px !important;
+	background-origin: content-box;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+.class_icon_border{
+	border: 2px solid gray;
+	border-radius: 5px;
+}
+.icon_scout{
+	background-image: url("/static/img/class_icons/scout.png");
+}
+.icon_soldier{
+	background-image: url("/static/img/class_icons/soldier.png");
+}
+.icon_pyro{
+	background-image: url("/static/img/class_icons/pyro.png");
+}
+.icon_demoman{
+	background-image: url("/static/img/class_icons/demoman.png");
+}
+.icon_heavy{
+	background-image: url("/static/img/class_icons/heavy.png");
+}
+.icon_engineer{
+	background-image: url("/static/img/class_icons/engineer.png");
+}
+.icon_medic{
+	background-image: url("/static/img/class_icons/medic.png");
+}
+.icon_sniper{
+	background-image: url("/static/img/class_icons/sniper.png");
+}
+.icon_spy{
+	background-image: url("/static/img/class_icons/spy.png");
+}
