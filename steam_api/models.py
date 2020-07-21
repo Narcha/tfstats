@@ -12,6 +12,18 @@ class PlayerManager(models.Manager):
     pass
 
 class Player(models.Model):
+    classes = [
+        "Scout",
+        "Soldier",
+        "Pyro",
+        "Demoman",
+        "Heavy",
+        "Engineer",
+        "Medic",
+        "Sniper",
+        "Spy"
+    ]
+
     class Meta:
         managed = True
 
@@ -25,6 +37,7 @@ class Player(models.Model):
     avatar_url_full = models.URLField()
     profile_url = models.URLField()
     public_profile = models.BooleanField()
+    profile_level = models.PositiveIntegerField(blank=True, null=True)
 
     # Timestamps
     account_created_at = models.DateTimeField(blank=True, null=True)
@@ -41,9 +54,26 @@ class Player(models.Model):
     playtime_440_total = models.PositiveIntegerField(blank=True, null=True)
     playtime_440_2weeks = models.PositiveIntegerField(blank=True, null=True)
 
+    # Other values that save processing time later
+    main_class = models.CharField(blank=True, max_length=8)
+
+    def get_profile_level(self, steamid):
+        response = requests.get(steam_api.STEAM_API_GETSTEAMLEVEL_URL % (tfstats.settings.STEAM_API_KEY, steamid))
+        if response.status_code == 500:
+            raise tfstats.errors.InvalidSteamIDError()
+        if response.status_code != 200:
+            raise tfstats.errors.SteamAPIError(response.status_code)
+        try:
+            decoded_json = json.loads(response.text)
+            decoded_json = decoded_json["response"]
+            return int(decoded_json["player_level"])
+        except (json.decoder.JSONDecodeError):
+            raise tfstats.errors.InvalidSteamIDError()
+        except(KeyError):
+            return 0
 
     def from_steamid(self, steamid):
-        # Step 1/3: General stats
+        # Step 1/4: General stats
         response = requests.get(steam_api.STEAM_API_PLAYERSUMMARY_URL % (tfstats.settings.STEAM_API_KEY, steamid))
         if response.status_code == 500:
             raise tfstats.errors.InvalidSteamIDError()
@@ -69,8 +99,11 @@ class Player(models.Model):
             self.has_public_stats = False
             self.save()
             return
-
-        # Step 2/3: Game stats
+        
+        # Step 2/4: Steam Level
+        self.profile_level = self.get_profile_level(steamid)
+        
+        # Step 3/4: Game stats
         response = requests.get(steam_api.STEAM_API_GAMESTATS_URL % (tfstats.settings.STEAM_API_KEY, steamid))
         if response.status_code == 500:
             # the player has their stats set to private
@@ -123,7 +156,10 @@ class Player(models.Model):
         self.stats_map = stats_map_dict
         self.stats_mvm = stats_mvm_dict
 
-        # Step 3/3: Playtime
+        playtimes = {c: stats_general_dict[c+".accum.iPlayTime"] for c in Player.classes}
+        self.main_class = max(playtimes, key=playtimes.get)
+
+        # Step 4/4: Playtime
         if not self.has_public_stats:
             self.save()
             return

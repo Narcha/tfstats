@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}
 Player Stats
 {% endblock title %}
+{% block head %}
+<link rel="stylesheet" href="{% static "css/class_icons.css"%}">
+<link rel="stylesheet" href="{% static "css/profile_levels.css"%}">
+{% endblock head %}
 {% block content %}
 <script>
     {% autoescape off %}
@@ -9,6 +14,11 @@ Player Stats
     map_stats = {{profile.stats_map}}
     mvm_stats = {{profile.stats_mvm}}
     {% endautoescape %}
+
+    // enable tooltips
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
 </script>
 <div class="card mb-4">
     <div class="card-body pr-0">
@@ -17,17 +27,26 @@ Player Stats
                 <img src="{{profile.avatar_url_full}}" class="profile-avatar mx-auto">
             </div>
             <div class="col-md-6">
-                <h2 class="profile-displayname">
-                    {{profile.displayname}}
-                </h2>
-                <small class="text-muted">Last updated {{profile.updated_at | timesince}} ago</small>
+                <div>
+                    <h2 class="profile-displayname">
+                        {{profile.displayname}}
+                        <div class="align-middle profileLevel lvl_{{profile_level_class}}">
+                            {{profile.profile_level}}
+                        </div>
+                        {% if profile.main_class %}<div class="d-inline-block align-middle class_icon icon_{{profile.main_class|lower}}"></div>{% endif %}
+                    </h2>
+                </div>
+                {% if profile.account_created_at %}
+                <small class="text-muted" data-toggle="tooltip" data-placement="bottom" title="Account creation date"><i class="fas fa-sign-in-alt">&nbsp;</i>{{profile.account_created_at | date}}</small>
+                {% endif %}
             </div>
+            <!--
             <div class="col-md-4 profile-metadata">
                 <div>Account created: {{profile.account_created_at | date}}</div>
                 <div>Hours in TF2: {{profile.playtime_440_total}}</div>
                 <div>Most played class: <span id="class_most_played"></span></div>
                 <div></div>
-            </div>
+            </div>-->
         </div>
     </div>
 </div>
@@ -127,6 +146,35 @@ Player Stats
             </div>
         </div>
         <div id="class-stats" class="tab-pane fade">
+            <ul class="nav">
+                <li class="nav-item active">
+                    <a class="nav-link active" data-toggle="tab" href="#scout" role="tab" aria-controls="scout" aria-selected="true"><div class="class_icon_large icon_scout"></div></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#soldier" role="tab" aria-controls="soldier" aria-selected="false"><div class="class_icon_large icon_soldier"></div></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#pyro" role="tab" aria-controls="pyro" aria-selected="false"><div class="class_icon_large icon_pyro"></div></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#demoman" role="tab" aria-controls="demoman" aria-selected="false"><div class="class_icon_large icon_demoman"></div></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#heavy" role="tab" aria-controls="heavy" aria-selected="false"><div class="class_icon_large icon_heavy"></div></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#engineer" role="tab" aria-controls="engineer" aria-selected="false"><div class="class_icon_large icon_engineer"></div></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#medic" role="tab" aria-controls="medic" aria-selected="false"><div class="class_icon_large icon_medic"></div></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#sniper" role="tab" aria-controls="sniper" aria-selected="false"><div class="class_icon_large icon_sniper"></div></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#spy" role="tab" aria-controls="spy" aria-selected="false"><div class="class_icon_large icon_spy"></div></a>
+                </li>
+            </ul>
         </div>
         <div id="map-stats" class="tab-pane fade">
         </div>
