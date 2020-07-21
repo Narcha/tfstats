@@ -4,14 +4,14 @@
 	background-origin: content-box;
 	background-repeat: no-repeat;
 	background-size: contain;
-	border: 2px solid gray;
-	border-radius: 5px;
 }.class_icon_large{
 	width: 64px !important;
 	height: 64px !important;
 	background-origin: content-box;
 	background-repeat: no-repeat;
 	background-size: contain;
+}
+.class_icon_border{
 	border: 2px solid gray;
 	border-radius: 5px;
 }
