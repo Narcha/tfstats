@@ -102,7 +102,7 @@
 	text-shadow: 1px 1px #1a1a1a;
 }
 
-.profileLevel.lvl_100 { background-image: url( '/static/img/steam_levels/levels_hexagons.png' ); }
+.profileLevel.lvl_100 { background-image: url( /static/img/steam_levels/levels_hexagons.png ); }
 .profileLevel.lvl_200 { background-image: url( '/static/img/steam_levels/levels_shields.png' ); }
 .profileLevel.lvl_300 { background-image: url( '/static/img/steam_levels/levels_books.png' );  }
 .profileLevel.lvl_400 { background-image: url( '/static/img/steam_levels/levels_chevrons.png' );  }
