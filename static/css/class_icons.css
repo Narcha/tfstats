@@ -16,29 +16,29 @@
 	border-radius: 5px;
 }
 .icon_scout{
-	background-image: url("/static/img/class_icons/scout.png");
+	background-image: url(/static/img/class_icons/scout.png);
 }
 .icon_soldier{
-	background-image: url("/static/img/class_icons/soldier.png");
+	background-image: url(/static/img/class_icons/soldier.png);
 }
 .icon_pyro{
-	background-image: url("/static/img/class_icons/pyro.png");
+	background-image: url(/static/img/class_icons/pyro.png);
 }
 .icon_demoman{
-	background-image: url("/static/img/class_icons/demoman.png");
+	background-image: url(/static/img/class_icons/demoman.png);
 }
 .icon_heavy{
-	background-image: url("/static/img/class_icons/heavy.png");
+	background-image: url(/static/img/class_icons/heavy.png);
 }
 .icon_engineer{
-	background-image: url("/static/img/class_icons/engineer.png");
+	background-image: url(/static/img/class_icons/engineer.png);
 }
 .icon_medic{
-	background-image: url("/static/img/class_icons/medic.png");
+	background-image: url(/static/img/class_icons/medic.png);
 }
 .icon_sniper{
-	background-image: url("/static/img/class_icons/sniper.png");
+	background-image: url(/static/img/class_icons/sniper.png);
 }
 .icon_spy{
-	background-image: url("/static/img/class_icons/spy.png");
+	background-image: url(/static/img/class_icons/spy.png);
 }
