@@ -39,6 +39,16 @@ GENERAL_FIELDS = [
     "Sniper.accum.iDominations",
     "Spy.accum.iDominations",
 
+    "Scout.accum.iPointsScored",
+    "Soldier.accum.iPointsScored",
+    "Pyro.accum.iPointsScored",
+    "Demoman.accum.iPointsScored",
+    "Heavy.accum.iPointsScored",
+    "Engineer.accum.iPointsScored",
+    "Medic.accum.iPointsScored",
+    "Sniper.accum.iPointsScored",
+    "Spy.accum.iPointsScored",
+
     "Medic.accum.iNumInvulnerable",
     "Spy.accum.iBackstabs",
     "Engineer.accum.iBuildingsBuilt",
