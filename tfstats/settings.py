@@ -138,10 +138,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Secrets
 
 # Steam API key
-STEAM_API_KEY = os.environ["STEAM_API_KEY"]
+with open(os.path.join(BASE_DIR, "secret/STEAM_API_KEY"), "r") as fp:
+    STEAM_API_KEY = fp.read().strip()
 
 # Secret Key
-SECRET_KEY = os.environ["SECRET_KEY"]
+with open(os.path.join(BASE_DIR, "secret/SECRET_KEY"), "r") as fp:
+    SECRET_KEY = fp.read().strip()
 
 # Session settings
 # https://docs.djangoproject.com/en/3.0/topics/http/sessions/
